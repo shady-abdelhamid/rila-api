@@ -1,8 +1,3 @@
 db:
-  host: 'localhost'
-  username: 'postgres'
-  password: 'P@ssw0rd'
+  url: 'mongodb://localhost/rila'
   synchronize: true
-
-jwt:
-  secret: 'topSecret51'

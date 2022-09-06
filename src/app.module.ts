@@ -1,21 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/typeorm.config';
 import { GatewayModule } from './gateway/gateway.module';
-import { Gateway } from './gateway/models/gateway.entity';
-import { Device } from './gateway/models/device.entity';
 
-// TypeOrmModule.forRoot(typeOrmConfig)
+TypeOrmModule.forRoot();
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: 'mongodb://localhost/rila',
-      synchronize: true,
-      useUnifiedTopology: true,
-      entities: [Gateway, Device],
-    }),
-    GatewayModule,
-  ],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), GatewayModule],
   controllers: [],
   providers: [],
 })
