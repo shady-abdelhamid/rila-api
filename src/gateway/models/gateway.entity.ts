@@ -1,4 +1,6 @@
+import { Status } from 'src/gateway/types/device-status.enum';
 import { Column, Entity, ObjectIdColumn, PrimaryColumn } from 'typeorm';
+import { Device } from './device.entity';
 
 @Entity()
 export class Gateway {
@@ -15,5 +17,5 @@ export class Gateway {
   ipv4: string;
 
   @Column()
-  devices: string[];
+  devices: Device[];
 }

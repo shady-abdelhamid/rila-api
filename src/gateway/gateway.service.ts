@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Gateway } from './gateway.entity';
+import { MongoRepository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { CreateGatewayInput } from './gateway.input';
+import { CreateGatewayDto, UpdateGatewayDto } from './dtos/gateway.dto';
+import { Gateway } from './models/gateway.entity';
 @Injectable()
 export class GatewayService {
   constructor(
-    @InjectRepository(Gateway) private gatewayRepository: Repository<Gateway>,
+    @InjectRepository(Gateway)
+    private gatewayRepository: MongoRepository<Gateway>,
   ) {}
 
   async getGateways(): Promise<Array<Gateway>> {
@@ -23,24 +24,40 @@ export class GatewayService {
     name,
     ipv4,
     devices,
-  }: CreateGatewayInput): Promise<Gateway> {
+  }: CreateGatewayDto): Promise<Gateway> {
     const gateway = this.gatewayRepository.create({
       serial: uuid(),
       name,
       ipv4,
-      devices,
+      devices: devices.map((d) => {
+        return {
+          uid: uuid(),
+          ...d,
+          updatedAt: new Date().toISOString(),
+        };
+      }),
     });
 
     return this.gatewayRepository.save(gateway);
   }
 
-  async assignDevicesToGateway(
-    gatewaySerial: string,
-    deviceIds: string[],
+  async updateGateway(
+    serial: string,
+    { name, ipv4, devices }: UpdateGatewayDto,
   ): Promise<Gateway> {
-    const gateway = await this.getGateway(gatewaySerial);
-    gateway.devices = [...gateway.devices, ...deviceIds];
+    let gateway = await this.getGateway(serial);
 
+    gateway = {
+      ...gateway,
+      name,
+      ipv4,
+      devices: devices.map((d) => {
+        return {
+          ...d,
+          updatedAt: new Date().toISOString(), // TODO: let date get updated only when there is a change
+        };
+      }),
+    };
     return this.gatewayRepository.save(gateway);
   }
 }

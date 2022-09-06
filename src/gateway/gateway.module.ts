@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DeviceModule } from '../device/device.module';
-import { Gateway } from './gateway.entity';
-import { GatewayResolver } from './gateway.resolver';
+import { Gateway } from './models/gateway.entity';
 import { GatewayService } from './gateway.service';
+import { GatewayController } from './gateway.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Gateway]), DeviceModule],
-  providers: [GatewayResolver, GatewayService],
+  imports: [TypeOrmModule.forFeature([Gateway])],
+  providers: [GatewayService],
+  controllers: [GatewayController],
 })
 export class GatewayModule {}

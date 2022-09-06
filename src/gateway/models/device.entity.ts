@@ -1,11 +1,8 @@
-import { Column, Entity, ObjectIdColumn, PrimaryColumn } from 'typeorm';
-import { Status } from './device-status.enum';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Status } from '../types/device-status.enum';
 
 @Entity()
 export class Device {
-  @ObjectIdColumn()
-  _id: string;
-
   @PrimaryColumn()
   uid: string;
 
