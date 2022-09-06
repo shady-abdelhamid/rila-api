@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayMaxSize,
   ArrayNotEmpty,
   IsArray,
   IsIP,
@@ -22,6 +23,7 @@ export class CreateGatewayDto {
   ipv4: string;
 
   @ApiProperty({ type: [CreateDeviceDto] })
+  @ArrayMaxSize(10)
   @ArrayNotEmpty()
   @IsArray()
   devices: CreateDeviceDto[];
@@ -37,6 +39,7 @@ export class UpdateGatewayDto {
   ipv4: string;
 
   @ApiProperty({ type: [UpdateDeviceDto] })
+  @ArrayMaxSize(10)
   @ArrayNotEmpty()
   @IsArray()
   devices: UpdateDeviceDto[];
