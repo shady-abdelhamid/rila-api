@@ -1,3 +1,3 @@
 db:
-  url:
+  url: mongo_db_url
   synchronize: true
