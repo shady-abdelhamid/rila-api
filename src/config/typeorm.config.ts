@@ -1,11 +1,13 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import * as config from 'config';
-
-const dbConfig = config.get('db');
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-  type: dbConfig['type'],
-  url: process.env.MONGODB_URL || dbConfig['url'],
+  type: 'mongodb',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT),
+  url: process.env.MONGODB_URI || 'mongodb://localhost/rila-shady',
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  synchronize: process.env.TYPEORM_SYNC || dbConfig['synchronize'],
+  synchronize: true,
 };

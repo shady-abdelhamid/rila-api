@@ -1,6 +1,0 @@
-server:
-  port: 7000
-
-db:
-  url: 'mongodb://localhost/rila-test'
-  synchronize: true

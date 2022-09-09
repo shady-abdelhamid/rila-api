@@ -1,3 +1,0 @@
-db:
-  url: 'mongodb://localhost/rila'
-  synchronize: true
